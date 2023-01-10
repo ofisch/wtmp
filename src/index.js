@@ -2,10 +2,12 @@
 const min = 1;
 const max = 100;
 let randomNumber = Math.floor(Math.random() * max - min + 1) + min;
+console.log(randomNumber);
 
 const guesses = document.querySelector('.guesses');
 const lastResult = document.querySelector('.lastResult');
 const lowOrHi = document.querySelector('.lowOrHi');
+const time = document.querySelector('.time');
 
 const guessSubmit = document.querySelector('.guessSubmit');
 const guessField = document.querySelector('.guessField');
@@ -39,9 +41,10 @@ const checkGuess = () => {
         lastResult.style.backgroundColor = 'green';
         // arvausten määrä
         lowOrHi.textContent = 'Number of guesses: ' + guessCount;
+        // arvaukseen menneen ajan näyttäminen
         lastGuess = Date.now();
         guessTime = millisToSec(lastGuess - firstGuess);
-        alert(guessTime);
+        time.textContent = 'Time spent guessing: ' + guessTime;
         setGameOver();
       } else if (guessCount === maxGuessCount) {
         lastResult.textContent = '!!!GAME OVER!!!';
