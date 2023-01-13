@@ -103,5 +103,3 @@ const randomButton = document.querySelector('#randombutton');
 randomButton.addEventListener('click', () => {
   alert(getRandomDish(activeMenu));
 });
-
-
