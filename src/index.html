@@ -6,9 +6,19 @@
     <link rel="stylesheet" href="assets/styles.css">
   </head>
   <body>
-    <p>
-      Hello! Open the developer tools, please.<br />
-      Start by editing the files in <code>src/</code> folder.
-    </p>
+
+    <div class="container">
+    <div id="textbox"></div>
+    <button id="sortbutton">järjestä ruokalajit</button>
+
+    <button id="langbutton">vaihda kieltä</button>
+
+    <button id="randombutton">satunnainen ruokalaji</button>
+
+    <input type="radio" id="asc" name="sort" value="asc" />
+    <label for="asc">nouseva (A-Ö)</label>
+    <input type="radio" id="desc" name="sort" value="desc" />
+    <label for="desc">laskeva (Ö-A)</label>
+  </div>
   </body>
 </html>
