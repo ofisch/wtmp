@@ -1,51 +1,55 @@
 'use strict';
 
-const coursesEn = ["Hamburger, cream sauce and poiled potates",
-"Goan style fish curry and whole grain rice",
-"Vegan Chili sin carne and whole grain rice",
-"Broccoli puree soup, side salad with two napas",
-"Lunch baguette with BBQ-turkey filling",
-"Cheese / Chicken / Vege / Halloum burger and french fries"];
-
-const coursesFi = ["Jauhelihapihvi, ruskeaa kermakastiketta ja keitettyä perunaa",
-"Goalaista kalacurrya ja täysjyväriisiä",
-"vegaani Chili sin carne ja täysjyväriisi",
-"Parsakeittoa,lisäkesalaatti kahdella napaksella",
-"Lunch baguette with BBQ-turkey filling",
-"Juusto / Kana / Kasvis / Halloumi burgeri ja ranskalaiset"];
+import Menu from './assets/menu.json';
+//console.log('menu.json', Menu);
 
 let lang = 'fi';
-let activeMenu = coursesFi;
+
+const courseMenu = Menu.courses;
+
+
 
 /**
  * Renders menu content to html page
- * @param {Array} activeMenu - array of dishes
+ * @param {Array} menu - array of dishes
  */
 
-const renderMenu = (activeMenu) => {
+const renderMenu = (menu) => {
   const menuBox = document.querySelector('#textbox');
   menuBox.innerHTML = "";
   const list = document.createElement('ul');
-  for (const dish of activeMenu) {
+  let dishes = [];
+  for (let x in menu) {
+    if (lang == 'fi') {
+      dishes[x] = menu[x].title_fi;
+    } else {
+      dishes[x] = menu[x].title_en;
+    }
     const li = document.createElement('li');
-    li.textContent = dish;
+    li.textContent = dishes[x];
     list.appendChild(li);
   }
-
   menuBox.append(list);
 };
-renderMenu(coursesFi);
 
+// tulostetaan ruokalajit sivulle
+renderMenu(courseMenu);
+
+// haetaan radionapit sivulta
 let radioButtons = document.getElementsByName("sort");
 
+/**
+ * Palauttaa valitun radionapin arvon
+ * @returns {string}
+ */
 const getRadioValue = () => {
-let selectedRadio;
-for (let i = 0; i < radioButtons.length; i++) {
+  let selectedRadio;
+  for (let i = 0; i < radioButtons.length; i++) {
     if (radioButtons[i].checked) {
-        selectedRadio = radioButtons[i].value;
+      selectedRadio = radioButtons[i].value;
     }
-}
-    return selectedRadio;
+  }
+  return selectedRadio;
 };
 
 /**
@@ -55,14 +59,25 @@ for (let i = 0; i < radioButtons.length; i++) {
  * @returns sorted menu array
  */
 
-const sortMenu = (menu, order='asc') => {
+const sortMenu = (menu, order = 'asc') => {
   let sortedArray;
+  let menuItems = [];
+  for (let x in menu) {
+    if (lang == 'fi') {
+      menuItems[x] = menu[x].title_fi;
+    } else {
+      menuItems[x] = menu[x].title_en;
+    }
+  }
+
   if (order == "asc") {
-      sortedArray = menu.sort((a, b) => a.localeCompare(b));
-      return sortedArray;
+    sortedArray = menuItems.sort((a, b) => a.localeCompare(b));
+    console.log(sortedArray);
+    return sortedArray;
   } else {
-      sortedArray = menu.sort((a, b) => -1 * a.localeCompare(b));
-      return sortedArray;
+    sortedArray = menuItems.sort((a, b) => -1 * a.localeCompare(b));
+    console.log(sortedArray);
+    return sortedArray;
   }
 };
 
@@ -71,24 +86,24 @@ const sortMenu = (menu, order='asc') => {
  * @param {string} language - 'fi' or 'en'
  */
 const changeLang = (language) => {
-  if (language == 'fi'){
-    activeMenu = coursesFi;
+  if (language == 'fi') {
+    //activeMenu = coursesFi;
   } else if (language == 'en') {
-    activeMenu = coursesEn;
+    //activeMenu = coursesEn;
   }
   lang = language;
-  renderMenu(activeMenu);
+  renderMenu(courseMenu);
 
 };
 
 const getRandomDish = (menu) => {
-  const randomIndex = Math.floor(Math.random()*menu.length);
+  const randomIndex = Math.floor(Math.random() * menu.length);
   return menu[randomIndex];
 };
 
 const sortButton = document.querySelector('#sortbutton');
 sortButton.addEventListener('click', () => {
-  renderMenu(sortMenu(coursesFi, getRadioValue()));
+    renderMenu(sortMenu(courseMenu, getRadioValue()));
 });
 
 const langButton = document.querySelector('#langbutton');
