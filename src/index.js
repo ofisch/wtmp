@@ -2,7 +2,7 @@
 const min = 1;
 const max = 100;
 let randomNumber = Math.floor(Math.random() * max - min + 1) + min;
-console.log(randomNumber);
+console.log('oikea vastaus:', randomNumber);
 
 const guesses = document.querySelector('.guesses');
 const lastResult = document.querySelector('.lastResult');
@@ -95,3 +95,31 @@ const resetGame = () => {
   
     randomNumber = Math.floor(Math.random() * 100) + 1;
 };
+
+class Bot {
+  constructor() {
+    let numberGuess = 50;
+    let rounds = 0;
+    for (let x = 0; x < 2; x++) {
+      console.log(numberGuess);
+      guessField.value = numberGuess;
+      checkGuess();
+      if (lowOrHi.textContent.includes('high')) {
+        if (rounds < 3) {
+          numberGuess =- 5;
+        } else if (rounds > 3 && rounds < 6) {
+          numberGuess =- 3;
+        }      
+      } else {
+        if (rounds < 3) {
+          numberGuess =+ 5;  
+        } else if (rounds > 3 && rounds < 6) {
+          numberGuess =+ 3;
+        } 
+      }
+      rounds = x;
+    }
+  }
+};
+
+const bot = new Bot();
