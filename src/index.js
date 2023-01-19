@@ -1,125 +1,108 @@
-//pienin ja suurin mahdollinen luku
-const min = 1;
-const max = 100;
-let randomNumber = Math.floor(Math.random() * max - min + 1) + min;
-console.log('oikea vastaus:', randomNumber);
+'use strict';
 
-const guesses = document.querySelector('.guesses');
-const lastResult = document.querySelector('.lastResult');
-const lowOrHi = document.querySelector('.lowOrHi');
-const time = document.querySelector('.time');
+//import Menu from './assets/menu.json';
 
-const guessSubmit = document.querySelector('.guessSubmit');
-const guessField = document.querySelector('.guessField');
 
-let guessCount = 1;
-// arvausten enimmäismäärä
-const maxGuessCount = 10;
-let resetButton;
+const dishes = [
+  { name: 'Lingonberry jam', price: 4.00 },
+  { name: 'Mushroom and bean casserole', price: 5.50 },
+  { name: 'Chili-flavoured wheat', price: 3.00 },
+  { name: 'Vegetarian soup', price: 4.80 },
+  { name: 'Pureed root vegetable soup with smoked cheese', price: 8.00 }
+];
 
-// oikeaan arvaukseen mennyt aika
-let firstGuess, lastGuess, guessTime;
+/**
+ * 
+ * @param {*} dish - ruokalajin nimi
+ * @returns - 'true' tai 'false' sen mukaan, onko ruokalajin nimi regexpin mukaisesti validi
+ */
+const validate = (dish) => {
+  //const pattern = /(^[A-Z]^.{4,64}$.*)/;
+  const pattern = /(^[A-Z].{4,64})/;
 
-guessField.focus();
-
-// millisekuntit sekunneiksi
-const millisToSec = (millis) => {
-    let sec = ((millis % 60000) / 1000).toFixed(0);
-    return sec + ' sekuntia';
+  if (pattern.test(dish))
+    return true;
+  else
+    return false;
 };
 
-const checkGuess = () => {
-    const userGuess = Number(guessField.value);
-    if (guessCount === 1) {
-        guesses.textContent = 'Previous guesses: ';
-        firstGuess = Date.now();
-      }
-      guesses.textContent += `${userGuess} `;
-    
-      if (userGuess === randomNumber) {
-        lastResult.textContent = 'Congratulations! You got it right!';
-        lastResult.style.backgroundColor = 'green';
-        // arvausten määrä
-        lowOrHi.textContent = 'Number of guesses: ' + guessCount;
-        // arvaukseen menneen ajan näyttäminen
-        lastGuess = Date.now();
-        guessTime = millisToSec(lastGuess - firstGuess);
-        time.textContent = 'Time spent guessing: ' + guessTime;
-        setGameOver();
-      } else if (guessCount === maxGuessCount) {
-        lastResult.textContent = '!!!GAME OVER!!!';
-        lowOrHi.textContent = '';
-        setGameOver();
-      } else {
-        lastResult.textContent = 'Wrong!';
-        lastResult.style.backgroundColor = 'red';
-        if (userGuess < randomNumber) {
-          lowOrHi.textContent = 'Last guess was too low!';
-        } else if (userGuess > randomNumber) {
-          lowOrHi.textContent = 'Last guess was too high!';
-        }
-      }
-    
-      guessCount++;
-      guessField.value = '';
-      guessField.focus();
+/**
+ * 
+ * @param {*} menu - ruokalista
+ * @returns - hinnan mukaan nousevasti järjestetyn ruokalistan
+ */
+const sortByPrice = (menu) => {
+  let sortedArray = menu.sort((a, b) => (a.price > b.price) ? 1 : -1);
+  return sortedArray;
 };
 
-guessSubmit.addEventListener('click', checkGuess);
+/**
+ * 
+ * @param {*} menu - ruokalista 
+ * @param {*} max - suurin hinta
+ * @returns - suurinta hintaa pienemmät tai yhtä suuret ruokalajit
+ */
+const displayUnder = (menu, max) => {
+  let dishes = sortByPrice(menu);
+  let dishesUnder = [];
 
-const setGameOver = () => {
-    guessField.disabled = true;
-    guessSubmit.disabled = true;
-    resetButton = document.createElement('button');
-    resetButton.textContent = 'Start new game';
-    document.body.append(resetButton);
-    resetButton.addEventListener('click', resetGame);
-};
-
-const resetGame = () => {
-    guessCount = 1;
-
-    const resetParas = document.querySelectorAll('.resultParas p');
-    for (const resetPara of resetParas) {
-      resetPara.textContent = '';
-    }
-  
-    resetButton.parentNode.removeChild(resetButton);
-  
-    guessField.disabled = false;
-    guessSubmit.disabled = false;
-    guessField.value = '';
-    guessField.focus();
-  
-    lastResult.style.backgroundColor = 'white';
-  
-    randomNumber = Math.floor(Math.random() * 100) + 1;
-};
-
-class Bot {
-  constructor() {
-    let numberGuess = 50;
-    let rounds = 0;
-    for (let x = 0; x < 2; x++) {
-      console.log(numberGuess);
-      guessField.value = numberGuess;
-      checkGuess();
-      if (lowOrHi.textContent.includes('high')) {
-        if (rounds < 3) {
-          numberGuess =- 5;
-        } else if (rounds > 3 && rounds < 6) {
-          numberGuess =- 3;
-        }      
-      } else {
-        if (rounds < 3) {
-          numberGuess =+ 5;  
-        } else if (rounds > 3 && rounds < 6) {
-          numberGuess =+ 3;
-        } 
-      }
-      rounds = x;
+  for (let dish of dishes) {
+    if (dish.price <= max) {
+      dishesUnder.push(dish);
     }
   }
+  return dishesUnder;
 };
 
-const bot = new Bot();
+/**
+ * 
+ * @param {*} menu - ruokalista 
+ * @returns - listan, jossa hintoja nostettu 15 prosenttia
+ */
+const raisePrices = (menu) => {
+  let dishes = sortByPrice(menu);
+  let menuPrices = [];
+
+  for (let dish of dishes) {
+    menuPrices.push(dish.price);
+  } 
+
+  let modifiedArr = menuPrices.map(function(element) {
+    return element + (element/100)*15;
+  });
+
+  for (let x = 0; x < dishes.length; x++) {
+    dishes[x].price = modifiedArr[x];
+  }
+  return dishes;
+};
+
+/**
+ * 
+ * @param {*} menu - ruokalista 
+ * @returns - ruokalajien hintojen summan
+ */
+const sumOfDishes = (menu) => {
+  let dishes = sortByPrice(menu);
+  let menuPrices = [];
+
+  for (let dish of dishes) {
+    menuPrices.push(dish.price);
+  } 
+
+  const initialValue = 0;
+  const sumWithInitial = menuPrices.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    initialValue
+  );
+  return sumWithInitial;
+};
+
+console.log(validate(dishes[1].name));
+console.log(sortByPrice(dishes));
+console.log(displayUnder(dishes, 5));
+console.log(raisePrices(dishes));
+console.log(sumOfDishes(dishes));
+
+
+//const menusForDay = Menu.
