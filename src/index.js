@@ -1,5 +1,5 @@
 //pienin ja suurin mahdollinen luku
-const min = 1;
+const min = 0;
 const max = 100;
 let randomNumber = Math.floor(Math.random() * max - min + 1) + min;
 console.log('oikea vastaus:', randomNumber);
@@ -24,102 +24,146 @@ guessField.focus();
 
 // millisekuntit sekunneiksi
 const millisToSec = (millis) => {
-    let sec = ((millis % 60000) / 1000).toFixed(0);
-    return sec + ' sekuntia';
+  let sec = ((millis % 60000) / 1000).toFixed(0);
+  return sec + ' sekuntia';
 };
 
 const checkGuess = () => {
-    const userGuess = Number(guessField.value);
-    if (guessCount === 1) {
-        guesses.textContent = 'Previous guesses: ';
-        firstGuess = Date.now();
-      }
-      guesses.textContent += `${userGuess} `;
-    
-      if (userGuess === randomNumber) {
-        lastResult.textContent = 'Congratulations! You got it right!';
-        lastResult.style.backgroundColor = 'green';
-        // arvausten määrä
-        lowOrHi.textContent = 'Number of guesses: ' + guessCount;
-        // arvaukseen menneen ajan näyttäminen
-        lastGuess = Date.now();
-        guessTime = millisToSec(lastGuess - firstGuess);
-        time.textContent = 'Time spent guessing: ' + guessTime;
-        setGameOver();
-      } else if (guessCount === maxGuessCount) {
-        lastResult.textContent = '!!!GAME OVER!!!';
-        lowOrHi.textContent = '';
-        setGameOver();
-      } else {
-        lastResult.textContent = 'Wrong!';
-        lastResult.style.backgroundColor = 'red';
-        if (userGuess < randomNumber) {
-          lowOrHi.textContent = 'Last guess was too low!';
-        } else if (userGuess > randomNumber) {
-          lowOrHi.textContent = 'Last guess was too high!';
-        }
-      }
-    
-      guessCount++;
-      guessField.value = '';
-      guessField.focus();
+  const userGuess = Number(guessField.value);
+  if (guessCount === 1) {
+    guesses.textContent = 'Previous guesses: ';
+    firstGuess = Date.now();
+  }
+  guesses.textContent += `${userGuess} `;
+
+  if (userGuess === randomNumber) {
+    lastResult.textContent = 'Congratulations! You got it right!';
+    lastResult.style.backgroundColor = 'green';
+    // arvausten määrä
+    lowOrHi.textContent = 'Number of guesses: ' + guessCount;
+    // arvaukseen menneen ajan näyttäminen
+    lastGuess = Date.now();
+    guessTime = millisToSec(lastGuess - firstGuess);
+    time.textContent = 'Time spent guessing: ' + guessTime;
+    setGameOver();
+  } else if (guessCount === maxGuessCount) {
+    lastResult.textContent = '!!!GAME OVER!!!';
+    lowOrHi.textContent = '';
+    setGameOver();
+  } else {
+    lastResult.textContent = 'Wrong!';
+    lastResult.style.backgroundColor = 'red';
+    if (userGuess < randomNumber) {
+      lowOrHi.textContent = 'Last guess was too low!';
+    } else if (userGuess > randomNumber) {
+      lowOrHi.textContent = 'Last guess was too high!';
+    }
+  }
+
+  guessCount++;
+  guessField.value = '';
+  guessField.focus();
 };
 
 guessSubmit.addEventListener('click', checkGuess);
 
 const setGameOver = () => {
-    guessField.disabled = true;
-    guessSubmit.disabled = true;
-    resetButton = document.createElement('button');
-    resetButton.textContent = 'Start new game';
-    document.body.append(resetButton);
-    resetButton.addEventListener('click', resetGame);
+  guessField.disabled = true;
+  guessSubmit.disabled = true;
+  resetButton = document.createElement('button');
+  resetButton.textContent = 'Start new game';
+  document.body.append(resetButton);
+  resetButton.addEventListener('click', resetGame);
 };
 
 const resetGame = () => {
-    guessCount = 1;
+  guessCount = 1;
 
-    const resetParas = document.querySelectorAll('.resultParas p');
-    for (const resetPara of resetParas) {
-      resetPara.textContent = '';
-    }
-  
-    resetButton.parentNode.removeChild(resetButton);
-  
-    guessField.disabled = false;
-    guessSubmit.disabled = false;
-    guessField.value = '';
-    guessField.focus();
-  
-    lastResult.style.backgroundColor = 'white';
-  
-    randomNumber = Math.floor(Math.random() * 100) + 1;
+  const resetParas = document.querySelectorAll('.resultParas p');
+  for (const resetPara of resetParas) {
+    resetPara.textContent = '';
+  }
+
+  resetButton.parentNode.removeChild(resetButton);
+
+  guessField.disabled = false;
+  guessSubmit.disabled = false;
+  guessField.value = '';
+  guessField.focus();
+
+  lastResult.style.backgroundColor = 'white';
+
+  randomNumber = Math.floor(Math.random() * 100) + 1;
 };
 
-class Bot {
-  constructor() {
-    let numberGuess = 50;
-    let rounds = 0;
-    for (let x = 0; x < 2; x++) {
-      console.log(numberGuess);
-      guessField.value = numberGuess;
-      checkGuess();
-      if (lowOrHi.textContent.includes('high')) {
-        if (rounds < 3) {
-          numberGuess =- 5;
-        } else if (rounds > 3 && rounds < 6) {
-          numberGuess =- 3;
-        }      
-      } else {
-        if (rounds < 3) {
-          numberGuess =+ 5;  
-        } else if (rounds > 3 && rounds < 6) {
-          numberGuess =+ 3;
-        } 
-      }
-      rounds = x;
+/*
+const guessingAlgorithm = (rounds) => {
+  let maxNum = max;
+  let minNum = min;
+  let guess = max / 2;
+  let correctGuess = 0;
+
+  let roundsElapsed = 0;
+
+  for (let x = 0; x < rounds; x++) {
+    guess = Math.round(((maxNum - minNum)/2) + minNum, 0);
+    if (guess === randomNumber) {
+      correctGuess++;
+      minNum = min;
+      maxNum = max;
+      guess = max / 2;
+      randomNumber = Math.floor(Math.random() * max - min + 1) + min;
+
+      roundsElapsed++;
+    }
+    else if (guess < randomNumber) {
+      maxNum = guess;
+
+      roundsElapsed++;
+    }
+    else if (guess > randomNumber) {
+      minNum = guess;
+
+      roundsElapsed++;
     }
   }
-};
+  console.log(roundsElapsed);
+  console.log(correctGuess);
+  let averageGuesses = (roundsElapsed / correctGuess);
+  
+  console.log(averageGuesses);
 
-const bot = new Bot();
+};
+*/
+
+let maxNum = max;
+let minNum = min;
+let guess = max / 2;
+
+let correctGuesses = 0;
+
+let roundsElapsed = 0;
+
+let games = 1000;
+
+while (correctGuesses <= 1000) {
+
+  guess = Math.round(((maxNum - minNum)/2) + minNum);
+
+  if (guess === randomNumber) {
+    correctGuesses++;
+    minNum = min;
+    maxNum = max;
+    guess = max / 2;
+    randomNumber = Math.floor(Math.random() * max - min + 1) + min;
+    roundsElapsed++;
+  } else if (guess < randomNumber) {
+    maxNum = guess;
+    roundsElapsed++;
+  } else if (guess > randomNumber) {
+    minNum = guess;
+    roundsElapsed++;
+  }
+}
+
+console.log(roundsElapsed / correctGuesses);
