@@ -12,13 +12,13 @@ const dishes = [
 ];
 
 /**
- * 
+ *
  * @param {*} dish - ruokalajin nimi
  * @returns - 'true' tai 'false' sen mukaan, onko ruokalajin nimi regexpin mukaisesti validi
  */
 const validate = (dish) => {
   //const pattern = /(^[A-Z]^.{4,64}$.*)/;
-  const pattern = /(^[A-Z].{4,64})/;
+  const pattern = /^((?=\S*?[A-Z])(?=\S*?[a-z]).{3,64})\S$/;
 
   if (pattern.test(dish))
     return true;
@@ -27,7 +27,7 @@ const validate = (dish) => {
 };
 
 /**
- * 
+ *
  * @param {*} menu - ruokalista
  * @returns - hinnan mukaan nousevasti järjestetyn ruokalistan
  */
@@ -37,8 +37,8 @@ const sortByPrice = (menu) => {
 };
 
 /**
- * 
- * @param {*} menu - ruokalista 
+ *
+ * @param {*} menu - ruokalista
  * @param {*} max - suurin hinta
  * @returns - suurinta hintaa pienemmät tai yhtä suuret ruokalajit
  */
@@ -55,8 +55,8 @@ const displayUnder = (menu, max) => {
 };
 
 /**
- * 
- * @param {*} menu - ruokalista 
+ *
+ * @param {*} menu - ruokalista
  * @returns - listan, jossa hintoja nostettu 15 prosenttia
  */
 const raisePrices = (menu) => {
@@ -65,7 +65,7 @@ const raisePrices = (menu) => {
 
   for (let dish of dishes) {
     menuPrices.push(dish.price);
-  } 
+  }
 
   let modifiedArr = menuPrices.map(function(element) {
     return element + (element/100)*15;
@@ -78,8 +78,8 @@ const raisePrices = (menu) => {
 };
 
 /**
- * 
- * @param {*} menu - ruokalista 
+ *
+ * @param {*} menu - ruokalista
  * @returns - ruokalajien hintojen summan
  */
 const sumOfDishes = (menu) => {
@@ -88,7 +88,7 @@ const sumOfDishes = (menu) => {
 
   for (let dish of dishes) {
     menuPrices.push(dish.price);
-  } 
+  }
 
   const initialValue = 0;
   const sumWithInitial = menuPrices.reduce(
