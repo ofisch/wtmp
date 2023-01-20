@@ -36,7 +36,7 @@ const binarySearch = (startPoint, endPoint) => {
   }
 };
 
-console.log(binarySearch(max, min));
+//console.log(binarySearch(max, min));
 
 function checkGuess() {
     const userGuess = Number(guessField.value);
