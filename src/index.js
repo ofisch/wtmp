@@ -1,6 +1,7 @@
 'use strict';
 
-//import Menu from './assets/menu.json';
+import Menu from './menu.json';
+
 
 
 const dishes = [
@@ -104,5 +105,21 @@ console.log(displayUnder(dishes, 5));
 console.log(raisePrices(dishes));
 console.log(sumOfDishes(dishes));
 
+console.log(Menu.MenusForDays[0].SetMenus[0].Components);
+const lunchMenu = Menu.MenusForDays[0].SetMenus[0].Components[0];
+const allergu = lunchMenu.split("(");
+console.log(allergu[1]);
 
-//const menusForDay = Menu.
+console.log(lunchMenu);
+
+const getVeganDishes = (menu) => {
+  let allergene;
+  for (let dish of menu) {
+    allergene = dish.split("(");
+    if (allergene[1].includes("Veg")) {
+
+    }
+  }
+};
+
+getVeganDishes(lunchMenu);
