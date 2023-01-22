@@ -1,46 +1,15 @@
 'use strict';
 
-import Menu from './assets/menu.json';
+import * as sodexoData from './modules/SodexoData.js';
+import * as renderData from './modules/Render.js';
 
-const courseMenu = Menu.courses;
+const data = sodexoData;
+const render = renderData;
 
-const coursesFi = [];
-const coursesEn = [];
-
-let activeMenu = coursesFi;
-let lang = 'fi';
-
-/**
- * Hakee ruokalajien otsikot Json-tiedostosta ja tallentaa listoihin
- * @param {*} menu 
- */
-const getMenuJson = (menu) => {
-for (let i in menu) {
-  coursesFi[i-1] = menu[i].title_fi;
-  coursesEn[i-1] = menu[i].title_en;
-}
-};
-
-getMenuJson(courseMenu);
-
-/**
- * Tulostaa ruokalajit sivulle
- * @param {Array} menu - lista ruokalajeista
- */
-const renderMenu = (menu) => {
-  const menuBox = document.querySelector('#textbox');
-  menuBox.innerHTML = "";
-  const list = document.createElement('ul');
-  for (let dish of menu) {
-    const li = document.createElement('li');
-    li.textContent = dish;
-    list.append(li);
-  }
-  menuBox.append(list);
-};
+data.getMenuJson(data.courseMenu);
 
 // tulostetaan ruokalajit sivulle
-renderMenu(activeMenu);
+render.renderMenu(data.activeMenu);
 
 // haetaan radionapit sivulta
 let radioButtons = document.getElementsByName("sort");
@@ -59,64 +28,21 @@ const getRadioValue = () => {
   return selectedRadio;
 };
 
-/**
- * Järjestää ruokalajit aakkosjärjestykseen
- * @param {Array} menu - lista ruokalajeista
- * @param {string} order - 'asc' tai 'desc'
- * @returns järjestetyn ruokalaji-listan
- */
-const sortMenu = (menu, order = 'asc') => {
-  let sortedArray;
-  if (order == "asc") {
-      sortedArray = menu.sort((a, b) => a.localeCompare(b));
-      return sortedArray;
-  } else {
-      sortedArray = menu.sort((a, b) => -1 * a.localeCompare(b));
-      return sortedArray;
-  }
-};
-
-/**
- * Vaihtaa käyttöliittymän kielen
- * @param {string} language - 'fi' tai 'en'
- */
-const changeLang = (language) => {
-  if (language == 'fi'){
-    activeMenu = coursesFi;
-  } else if (language == 'en') {
-    activeMenu = coursesEn;
-  }
-  lang = language;
-  renderMenu(activeMenu);
-};
-
-/**
- * Hakee satunnaisen ruokalajin 
- * @param {*} menu 
- * @returns satunnaisen ruokalajin
- */
-const getRandomDish = (menu) => {
-  const randomIndex = Math.floor(Math.random() * menu.length);
-  return menu[randomIndex];
-};
-
-
 // EventListenerit napeille
-
 const sortButton = document.querySelector('#sortbutton');
 sortButton.addEventListener('click', () => {
-    renderMenu(sortMenu(activeMenu, getRadioValue()));
+    render.renderMenu(data.sortMenu(data.activeMenu, getRadioValue()));
 });
 
 const langButton = document.querySelector('#langbutton');
 langButton.addEventListener('click', () => {
-  if (lang == 'fi')
-    changeLang('en');
+  if (data.lang == 'fi')
+    data.changeLang('en');
   else
-    changeLang('fi');
+    data.changeLang('fi');
 });
 
 const randomButton = document.querySelector('#randombutton');
 randomButton.addEventListener('click', () => {
-  alert(getRandomDish(activeMenu));
+  alert(data.getRandomDish(data.activeMenu));
 });
