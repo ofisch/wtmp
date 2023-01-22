@@ -23,7 +23,7 @@ const binarySearch = (startPoint, endPoint) => {
   while (end > start) {
     console.log(start, end);
     if (guess == randomNumber) {
-      console.log("LÖYTY!");
+      console.log("löyty!");
       return guess;
     } else if (guess > randomNumber) {
       console.log("liian iso arvaus:", guess);
@@ -32,7 +32,7 @@ const binarySearch = (startPoint, endPoint) => {
     } else if (guess < randomNumber) {
       console.log("liian pieni arvaus:", guess);
       guess = Math.ceil((end + start) / 2);
-    } else { return "NOT FOUND"; }
+    } else { return "ei löytynyt"; }
   }
 };
 
