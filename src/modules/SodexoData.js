@@ -1,11 +1,15 @@
 'use strict';
 
 import Menu from '../assets/menu.json';
+
 import * as renderData from './Render.js';
+import * as fazerData from './FazerData';
 
 const render = renderData;
 
 const courseMenu = Menu.courses;
+const menuFi = fazerData.menuDayFi;
+const menuEn = fazerData.menuDayEn;
 
 const coursesFi = [];
 const coursesEn = [];
@@ -22,6 +26,14 @@ const getMenuJson = (menu) => {
         coursesFi[i - 1] = menu[i].title_fi;
         coursesEn[i - 1] = menu[i].title_en;
     }
+};
+
+/**
+ * Vaihtaa aktiivisen ruokalistan
+ * @param {*} menu 
+ */
+const switchActiveMenu = (menu) => {
+    activeMenu = menu;
 };
 
 /**
@@ -56,14 +68,14 @@ const getRandomDish = (menu) => {
  * @param {string} language - 'fi' tai 'en'
  */
 const changeLang = (language) => {
-    if (language == 'fi'){
-      activeMenu = coursesFi;
+    if (language == 'fi') {
+        activeMenu = coursesFi;
     } else if (language == 'en') {
-      activeMenu = coursesEn;
+        activeMenu = coursesEn;
     }
     lang = language;
     render.renderMenu(activeMenu);
-  };
+};
 
 export {
     courseMenu,
@@ -75,4 +87,7 @@ export {
     sortMenu,
     getRandomDish,
     changeLang,
+    switchActiveMenu,
+    menuFi,
+    menuEn,
 };

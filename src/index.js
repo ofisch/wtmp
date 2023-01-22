@@ -46,3 +46,9 @@ const randomButton = document.querySelector('#randombutton');
 randomButton.addEventListener('click', () => {
   alert(data.getRandomDish(data.activeMenu));
 });
+
+const switchButton = document.querySelector('#switchbutton');
+switchButton.addEventListener('click', () => {
+  data.switchActiveMenu(data.menuFi);
+  render.renderMenu(data.sortMenu(data.activeMenu));
+});
