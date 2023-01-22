@@ -105,21 +105,24 @@ console.log(displayUnder(dishes, 5));
 console.log(raisePrices(dishes));
 console.log(sumOfDishes(dishes));
 
-console.log(Menu.MenusForDays[0].SetMenus[0].Components);
-const lunchMenu = Menu.MenusForDays[0].SetMenus[0].Components[0];
-const allergu = lunchMenu.split("(");
-console.log(allergu[1]);
+// yhden päivän ruokalista
+const lunchMenu = Menu.MenusForDays[0].SetMenus[0].Components;
 
-console.log(lunchMenu);
-
+/**
+ * 
+ * @param {*} menu - yhden päivän ruokalista
+ * @returns - ruokalajit, jotka sisältävät Veg-määreen
+ */
 const getVeganDishes = (menu) => {
-  let allergene;
-  for (let dish of menu) {
-    allergene = dish.split("(");
-    if (allergene[1].includes("Veg")) {
+  let veganDishes = [];
 
+  for (let i = 0; i < lunchMenu.length; i++) {
+    let specialDiet = lunchMenu[i].split('(');
+    if (specialDiet[1].includes('Veg')) {
+      veganDishes.push(lunchMenu[i]);
     }
   }
+  return veganDishes;
 };
 
-getVeganDishes(lunchMenu);
+console.log(getVeganDishes(lunchMenu));
