@@ -14,6 +14,13 @@ let guessCount = 1;
 let resetButton;
 
 
+/*
+Paras strategia on binäärihaku.
+Haku aloitetaan taulukon keskeltä. Jos alkiota ei löydy, jaetaan taulukko 
+pienempään taulukkoon sen perusteella, onko etsittävä alkio pienempi vai suurempi kuin keskeltä löytynyt alkio.
+Joka kerta, kun alkiota ei löydy, taulukko jaetaan pienempään ja etsintä aloitetaan uudestaan keskeltä.
+*/
+
 const binarySearch = (startPoint, endPoint) => {
   let start = startPoint;
   let end = endPoint;
@@ -35,8 +42,6 @@ const binarySearch = (startPoint, endPoint) => {
     } else { return "ei löytynyt"; }
   }
 };
-
-//console.log(binarySearch(max, min));
 
 function checkGuess() {
     const userGuess = Number(guessField.value);
