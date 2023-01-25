@@ -1,5 +1,6 @@
 'use strict';
 
+// Kun kolmea näppäintä painetaan, ajetaan alert()
 const secret = () => {
   let keys = [];
   document.addEventListener('keydown', (event) => {
@@ -23,6 +24,7 @@ const secret = () => {
 
 secret();
 
+// tuplaklikkaus tulostaa hiiren koordinaatit
 document.ondblclick = function (event) {
   let x = event.clientX;
   let y = event.clientY;
@@ -32,11 +34,12 @@ document.ondblclick = function (event) {
   console.log(coords);
 };
 
+// kosketus tulostaa viestin konsoliin
 document.addEventListener('touchstart', function () {
   console.log('ruutua kosketettu');
 });
 
-
+// Kun setInterval:in aika loppuu, ajetaan timer
 const timer = (idle) => {
     const para = 'Hurry up!';
     document.querySelector(".content").innerHTML = para;
@@ -44,6 +47,7 @@ const timer = (idle) => {
 
 setInterval(timer, 15000);
 
+// hiiren liikuttaminen tai näppäimen painallus ajaa resetTimer-funtkion
 const idleTime = () => {
   let time;
   window.onload = resetTimer;
