@@ -1,8 +1,6 @@
-# WTMP Starter
+# WTMP Teacher examples 2023
 
-Simple boilerplate for [Webpack](https://webpack.js.org/guides/getting-started) powered web development exercises.
-
-ES6+ without any babeling/transpilers/polyfills. Only for [modern browsers](https://kangax.github.io/compat-table/es6/).
+Check different branches for different assingments.
 
 ## Quick start
 

@@ -1,15 +1,17 @@
 'use strict';
 
-import Sodexo from './modules/SodexoData.js';
-import Fazer from './modules/FazerData.js';
-import * as renderData from './modules/Render.js';
+import Sodexo from './modules/sodexo-data';
+import Fazer from './modules/fazer-data';
+
 
 let lang = 'fi';
 let menuContainers = [];
 let activeMenus = [];
 
-//data.getMenuJson(data.courseMenu);
-
+/**
+ * Tulostetaan ruokalistan sisältö sivulle
+ * @param {Array} menu - ruokalistat array-tyyppisenä
+ */
 const renderMenu = (menu, targetElem) => {
   const menuContainer = targetElem;
   menuContainer.innerHTML = '';
@@ -22,77 +24,46 @@ const renderMenu = (menu, targetElem) => {
   menuContainer.append(list);
 };
 
-const init = async () => {
-  activeMenus = [await Sodexo.getDailyMenu('fi'), Fazer.coursesFi];
-  console.log('aktiiviset: ', activeMenus);
-  menuContainers = document.querySelector('.node-title').getElementsByTagName('p')[0];
-  console.log(menuContainers);
-  for (const menu of activeMenus) {
-    renderMenu(menu, menuContainers);
-    console.log('menu: ', menu);
-  }
-};
-init();
-
-const changeLang = async (language) => {
+/**
+ * Käyttöliittymän kielen vaihto
+ * @param {string} language
+*/
+const changeLanguage = async (language) => {
   activeMenus[0] = await Sodexo.getDailyMenu(language);
-  console.log('haloo: ', await Sodexo.getDailyMenu(language));
-
   if (language === 'fi') {
-    console.log(Fazer.coursesFi);
     activeMenus[1] = Fazer.coursesFi;
   } else if (language === 'en') {
     activeMenus[1] = Fazer.coursesEn;
-    console.log('onks valoo: ', Fazer.coursesEn);
   }
   lang = language;
-
-  for (const [index, menu] of activeMenus.entries()) {
+  for (const menu of activeMenus.entries()) {
     renderMenu(menu, menuContainers);
   }
 };
 
-// haetaan radionapit sivulta
-let radioButtons = document.getElementsByName("sort");
+/**
+ * Kielinappi
+*/
+const langButton = document.querySelector('#lang-button');
+langButton.addEventListener('click', () => {
+  if (lang === 'fi') {
+    changeLanguage('en');
+  } else {
+    changeLanguage('fi');
+  }
+});
 
 /**
- * Palauttaa valitun radionapin arvon
- * @returns {string}
+ * Init sivulle tultaessa
  */
-const getRadioValue = () => {
-  let selectedRadio;
-  for (let i = 0; i < radioButtons.length; i++) {
-    if (radioButtons[i].checked) {
-      selectedRadio = radioButtons[i].value;
-    }
+const init = async () => {
+  activeMenus = [await Sodexo.getDailyMenu('en'), Fazer.coursesEn];
+  menuContainers = document.querySelector('.node-title').getElementsByTagName('p')[0];
+  for (const menu of activeMenus.entries()) {
+    renderMenu(menu, menuContainers);
   }
-  return selectedRadio;
 };
-
-// EventListenerit napeille
-const sortButton = document.querySelector('#sortbutton');
-sortButton.addEventListener('click', () => {
-    renderMenu(data.sortMenu(data.activeMenu, getRadioValue()));
-});
-
-const langButton = document.querySelector('#langbutton');
-langButton.addEventListener('click', () => {
-  if (lang == 'fi')
-    changeLang('en');
-  else
-    changeLang('fi');
-});
-
-const randomButton = document.querySelector('#randombutton');
-randomButton.addEventListener('click', () => {
-  alert(data.getRandomDish(data.activeMenu));
-});
-
-const switchButton = document.querySelector('#switchbutton');
-switchButton.addEventListener('click', () => {
-  data.switchActiveMenu(data.menuFi);
-  render.renderMenu(data.sortMenu(data.activeMenu));
-});
+init();
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

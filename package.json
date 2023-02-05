@@ -1,7 +1,7 @@
 {
-  "name": "wtmp-starter",
-  "version": "1.0.7",
-  "description": "Simple boilerplate for webpack powered projects",
+  "name": "wtmp-examples-2023",
+  "version": "1.0.0",
+  "description": "Teacher examples p3/2023",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,7 +12,6 @@
   "author": "mattpe",
   "license": "ISC",
   "devDependencies": {
-    "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "eslint": "^7.32.0",
     "eslint-webpack-plugin": "^3.2.0",

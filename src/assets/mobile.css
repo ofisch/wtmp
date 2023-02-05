@@ -1,0 +1,406 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;600&display=swap');
+
+/*
+päävärit:
+#43E04F vihreä
+#940E3F punainen
+#343A40 tummanharmaa
+#9BADBF vaaleanharmaa
+#000000 musta
+
+lisävärit:
+#1D9426 tummanvihreä
+#65FF71 vaaleanvihreä
+#E0437C vaaleanpunainen
+*/
+
+:root {
+    --green: #43E04F;
+    --red: #940E3F;
+    --darkGray: #343A40;
+    --lightGray: #9BADBF;
+    --black: #000000;
+    --addDarkGreen: #1D9426;
+    --addLightGreen: #65FF71;
+    --addLightRed: #E0437C;
+}
+
+@font-face {
+    font-family: LatoRegular;
+    src: url(fonts/Lato/Lato-Regular.ttf);
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: LatoBold;
+    src: url(fonts/Lato/Lato-Bold.ttf);
+    font-weight: 700;
+    font-display: swap;
+
+}
+
+@font-face {
+    font-family: LatoBlack;
+    src: url(fonts/Lato/Lato-Black.ttf);
+    font-weight: 900;
+    font-display: swap;
+
+}
+
+body {
+
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    font-family: LatoRegular;
+}
+
+header input {
+    border-radius: 8px;
+    border-color: var(--red);
+    height: 25px;
+    margin-top: 7px;
+    font-family: LatoRegular;
+}
+
+.search {
+    display: none;
+}
+
+.search i svg {
+    position: absolute;
+    margin-top: 9px;
+    width: 30px;
+    height: 30px;
+    fill: var(--red);
+    transition: .3s;
+}
+
+.search i svg:hover {
+    fill: var(--addLightRed);
+}
+
+.mobile-nav {
+    display: flex;
+    width: 100%;
+    height: 2.5em;
+    background-color: #65FF71;
+    flex-direction: column;
+}
+
+#mobile-menu {
+    width: 100%;
+    /*background: antiquewhite;
+    /*margin-top: 22px;*/
+    /*border: 2px solid;*/
+    margin: auto;
+}
+
+#mobile-menu ul {
+    list-style-type: none;
+    padding: 0px;
+    text-align: center;
+    font-family: LatoBold;
+}
+
+#mobile-menu ul li {
+    padding: 10px;
+    border-bottom: 2px solid;
+}
+
+#mobile-menu ul li a {
+    text-decoration: none
+}
+
+
+#mobile-menu-button {
+    background-color: var(--green);
+    border: 0px;
+    width: 15%;
+    height: 100%;
+}
+
+nav {
+    /*text-align: center;*/
+    display: none;
+ 
+}
+
+nav ul {
+    list-style-type: none;
+    font-family: LatoBold;
+}
+
+nav ul li {
+    display: inline;
+    padding: 5px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--red);
+    padding: 3px;
+    transition: .3s;
+
+}
+
+a:hover {
+    border-bottom: 1px solid;
+    border-color: #000000;
+    /*border-radius: 16px;*/
+    background-color: var(--addLightRed);
+    color: #000000;
+}
+
+a:active {
+    color: var(--addLightGreen);
+}
+
+#front-page {
+    color: var(--addLightRed) !important;
+    /*background-color: var(--addLightRed);*/
+    border-bottom: 0px solid;
+    font-family: LatoBlack;
+}
+
+
+#front-page:hover {
+
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.item {
+    width: 45%;
+    /*height: 100px;*/
+    margin-bottom: 0.8%;
+}
+
+.nav {
+    height: 45px;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.item1 {
+    display: flex;
+    flex-direction: row;
+    width: 100% !important;
+    min-height: 155px;
+    background-color: var(--green);
+    text-align: left;
+}
+
+.item:nth-child(2n) {
+    width: 60%;
+}
+
+.item2 {
+    /*height: 130px;*/
+    margin-top: 20px;
+}
+
+.item2 p {
+    text-align: center;
+    font-size: 1.3em;
+    font-family: LatoRegular;
+}
+
+@media only screen and (max-width: 530px) {
+    .item2 {
+        width: 100%;
+        letter-spacing: 1px;
+    }
+}
+
+.titlebanner {
+    width: 50%;
+    height: 100%;
+    text-align: center;
+    color: black;
+}
+
+.titlebanner h1 {
+    padding-top: 3%;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 800;
+}
+
+.titlebanner p {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 400;
+}
+
+.imgbanner {
+    width: 50%;
+    height: 100%;
+    background-image: url(traditional-food-around-the-world-Travlinmad.webp);
+    clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.nodecontainer {
+    display: grid;
+    margin-top: 40px;
+    margin-left: 22%;
+    margin-right: 22%;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-auto-rows: 200px;
+    gap: 100px;
+    margin: auto;
+}
+
+.node {
+    border: solid 2px;
+    border-radius: 25px;
+    text-align: center;
+    /*background-color: var(--lightGray);*/
+    overflow: auto;
+}
+
+.node3 {
+    border: dotted 3px;
+    border-radius: 25px;
+    text-align: initial;
+    /*background-color: var(--lightGray);*/
+    height: 50px;
+    width: 300px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.node3 svg {
+    width: 30px;
+    height: 30px;
+}
+
+.node3 svg:hover {
+    fill: var(--addLightGreen);
+}
+
+.node-title {
+    display: flex;
+    width: 50%;
+    height: 25%;
+    flex-direction: column;
+    font-family: LatoRegular;
+}
+
+.node-title h3 {
+    font-family: LatoBlack;
+}
+
+.nodecontent {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.nodecontent i svg {
+    width: 30px;
+    height: 30px;
+    margin-top: 8px;
+    fill: var(--darkGray);
+}
+
+.nodecontent i svg:hover {
+    fill: var(--addLightGreen);
+}
+
+.node-title h3, .node-title h4, .node-title p {
+    margin: 0px;
+    margin-left: 5px;
+    text-align: initial;
+}
+
+.node-img {
+    width: 150px;
+    height: 150px;
+    border: 1px solid;
+    border-color: black;
+    background-image: url('./rafla.webp');
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: cover;
+}
+
+.landing {
+    display: flex;
+    margin: auto;
+    margin-top: 200px;
+    width: 50%;
+    min-height: 350px;
+    background-color: var(--green);
+    width: 100%;
+}
+
+.landing-content {
+    width: 100%;
+    background-color: var(--green);
+    text-align: center;
+    margin-left: 15px;
+    padding: 5px;
+    padding-left: 110px;
+    padding-right: 110px;
+}
+
+.landing-content h2 {
+    padding-top: 3%;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 800;
+}
+
+.landing-content p {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 400;
+    word-spacing: 5px;
+}
+
+.landing-mousemove {
+    display: none;
+    width: 60%;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--green);
+}
+
+#layer-pan {
+    background-image: url(pan.webp);
+    background-size: 100% auto;
+    position: absolute;
+    top: 18%;
+    left: 33%;
+    width: 30vmin;
+    aspect-ratio: 1.07;
+    z-index: 1;
+}
+
+#layer-veggies {
+    background-image: url(vege.png);
+    background-size: 100% auto;
+    position: absolute;
+    top: 5%;
+    left: 28%;
+    width: 24vmin;
+    aspect-ratio: 1.07;
+    z-index: 1;
+}
+
+#button {
+    width: 180px;
+    height: 50px;
+    border-radius: 12px;
+    border: 1px solid var(--green);
+    background-color: var(--addDarkGreen);
+}
