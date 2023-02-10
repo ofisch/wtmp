@@ -10,9 +10,12 @@ let activeMenus = [];
 
 //data.getMenuJson(data.courseMenu);
 
-const renderMenu = (menu, targetElem) => {
+const renderMenu = (menu, title, targetElem) => {
   const menuContainer = targetElem;
   menuContainer.innerHTML = '';
+  const h3 = document.createElement('h3');
+  h3.textContent = title;
+  targetElem.append(h3);
   const list = document.createElement('ul');
   for (const dish of menu) {
     const li = document.createElement('li');
